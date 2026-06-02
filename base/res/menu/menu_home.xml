@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@id/action_settings" android:visible="false" android:orderInCategory="100" android:title="设置" app:showAsAction="never" />
+    <item android:icon="@drawable/ic_action_edit" android:id="@id/action_edit_apps" android:visible="true" android:orderInCategory="100" android:title="@string/title_edit_apps" app:showAsAction="always" />
+    <item android:icon="@drawable/ic_action_search_space" android:id="@id/action_search" android:visible="true" android:orderInCategory="100" android:title="Search" app:showAsAction="always" />
+    <item android:icon="@drawable/ic_action_qrcode" android:id="@id/action_qrcode_scan" android:visible="true" android:orderInCategory="100" android:title="QRCODE" app:showAsAction="always" />
+    <item android:icon="@drawable/ic_action_stop_all" android:id="@id/action_stop_apps" android:visible="true" android:orderInCategory="100" android:title="StopApps" app:showAsAction="always" />
+    <item android:icon="@drawable/ic_action_more" android:id="@id/action_about_us" android:orderInCategory="100" android:title="@string/title_about" app:showAsAction="always" />
+    <item android:id="@id/action_ump_settings" android:visible="false" android:orderInCategory="100" android:title="@string/privacy_ad_settings" app:showAsAction="never" />
+</menu>

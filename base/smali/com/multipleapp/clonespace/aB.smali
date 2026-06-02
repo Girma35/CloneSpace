@@ -1,0 +1,102 @@
+.class public final Lcom/multipleapp/clonespace/aB;
+.super Ljava/lang/Object;
+.source "SourceFile"
+
+# interfaces
+.implements Lcom/multipleapp/clonespace/pa;
+.implements Lcom/multipleapp/clonespace/qa;
+
+
+# static fields
+.field public static final a:Lcom/multipleapp/clonespace/aB;
+
+
+# direct methods
+.method static constructor <clinit>()V
+    .locals 1
+
+    .line 1
+    new-instance v0, Lcom/multipleapp/clonespace/aB;
+
+    .line 2
+    .line 3
+    invoke-direct {v0}, Ljava/lang/Object;-><init>()V
+
+    .line 4
+    .line 5
+    .line 6
+    sput-object v0, Lcom/multipleapp/clonespace/aB;->a:Lcom/multipleapp/clonespace/aB;
+
+    .line 7
+    .line 8
+    return-void
+.end method
+
+
+# virtual methods
+.method public final B(Lcom/multipleapp/clonespace/ra;)Lcom/multipleapp/clonespace/ra;
+    .locals 0
+
+    .line 1
+    invoke-static {p0, p1}, Lcom/multipleapp/clonespace/WM;->c(Lcom/multipleapp/clonespace/pa;Lcom/multipleapp/clonespace/ra;)Lcom/multipleapp/clonespace/ra;
+
+    .line 2
+    .line 3
+    .line 4
+    move-result-object p1
+
+    .line 5
+    return-object p1
+.end method
+
+.method public final f(Lcom/multipleapp/clonespace/qa;)Lcom/multipleapp/clonespace/ra;
+    .locals 0
+
+    .line 1
+    invoke-static {p0, p1}, Lcom/multipleapp/clonespace/WM;->b(Lcom/multipleapp/clonespace/pa;Lcom/multipleapp/clonespace/qa;)Lcom/multipleapp/clonespace/ra;
+
+    .line 2
+    .line 3
+    .line 4
+    move-result-object p1
+
+    .line 5
+    return-object p1
+.end method
+
+.method public final g(Ljava/lang/Object;Lcom/multipleapp/clonespace/Xh;)Ljava/lang/Object;
+    .locals 0
+
+    .line 1
+    invoke-interface {p2, p1, p0}, Lcom/multipleapp/clonespace/Xh;->f(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+
+    .line 2
+    .line 3
+    .line 4
+    move-result-object p1
+
+    .line 5
+    return-object p1
+.end method
+
+.method public final getKey()Lcom/multipleapp/clonespace/qa;
+    .locals 0
+
+    .line 1
+    return-object p0
+.end method
+
+.method public final s(Lcom/multipleapp/clonespace/qa;)Lcom/multipleapp/clonespace/pa;
+    .locals 0
+
+    .line 1
+    invoke-static {p0, p1}, Lcom/multipleapp/clonespace/WM;->a(Lcom/multipleapp/clonespace/pa;Lcom/multipleapp/clonespace/qa;)Lcom/multipleapp/clonespace/pa;
+
+    .line 2
+    .line 3
+    .line 4
+    move-result-object p1
+
+    .line 5
+    return-object p1
+.end method

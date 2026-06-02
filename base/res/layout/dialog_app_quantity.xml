@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.software.blurview.BlurView android:id="@id/blurView" android:layout_width="match_parent" android:layout_height="match_parent" app:blurOverlayColor="@color/blurOverlayColor"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:layout_gravity="bottom" android:orientation="vertical" android:id="@id/container" android:background="@drawable/bg_f6fbff_r12" android:paddingTop="16.0dp" android:paddingBottom="24.0dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="16.0dp">
+        <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="24.0dp" android:layout_marginRight="24.0dp" android:layout_marginHorizontal="24.0dp">
+            <ImageView android:id="@id/iv_app_icon" android:layout_width="32.0dp" android:layout_height="32.0dp" android:src="@mipmap/ic_launcher" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" />
+            <ImageView android:id="@id/iv_close" android:layout_width="28.0dp" android:layout_height="28.0dp" android:src="@drawable/ic_action_clear" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <NumberPicker android:theme="@style/AppTheme.Picker" android:id="@id/numberPicker" android:layout_width="match_parent" android:layout_height="150.0dp" android:layout_marginLeft="24.0dp" android:layout_marginRight="24.0dp" android:layout_marginHorizontal="24.0dp" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="48.0dp" android:layout_marginLeft="24.0dp" android:layout_marginTop="16.0dp" android:layout_marginRight="24.0dp" android:layout_marginHorizontal="24.0dp">
+            <TextView android:textAppearance="?android:textAppearanceListItem" android:textSize="18.0sp" android:textColor="@color/colorPrimary" android:gravity="center" android:id="@id/btnCancel" android:background="@drawable/bg_white_r12" android:paddingTop="8.0dp" android:paddingBottom="8.0dp" android:layout_width="0.0dp" android:layout_height="wrap_content" android:text="@string/negative" android:layout_weight="1.0" android:paddingVertical="8.0dp" />
+            <View android:layout_width="0.0dp" android:layout_height="wrap_content" android:layout_weight="0.3" />
+            <TextView android:textAppearance="?android:textAppearanceListItem" android:textSize="16.0sp" android:textColor="@color/white" android:gravity="center" android:id="@id/btnConfirm" android:background="@drawable/bg_primary_r12" android:paddingTop="8.0dp" android:paddingBottom="8.0dp" android:layout_width="0.0dp" android:layout_height="wrap_content" android:text="@string/positive" android:layout_weight="1.0" android:paddingVertical="8.0dp" />
+        </LinearLayout>
+    </LinearLayout>
+</com.software.blurview.BlurView>

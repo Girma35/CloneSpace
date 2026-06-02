@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:paddingLeft="16.0dp" android:paddingTop="8.0dp" android:paddingRight="16.0dp" android:paddingBottom="8.0dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:minWidth="240.0dp" android:paddingHorizontal="16.0dp" android:paddingVertical="8.0dp"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="14.0sp" android:textColor="@color/white" android:ellipsize="end" android:id="@id/tv_title" android:layout_width="0.0dp" android:layout_height="wrap_content" android:text="@string/action_create_shortcut" android:maxLines="1" android:layout_weight="1.0" />
+    <ImageView android:id="@id/iv_icon" android:layout_width="20.0dp" android:layout_height="20.0dp" android:src="@drawable/ic_action_create_shortcut" android:layout_marginStart="16.0dp" />
+</LinearLayout>

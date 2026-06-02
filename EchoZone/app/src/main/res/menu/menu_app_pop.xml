@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:icon="@drawable/ic_action_create_shortcut" android:id="@+id/action_create_shortcut" android:visible="false" android:orderInCategory="100" android:title="@string/action_create_shortcut"/>
+    <item android:icon="@drawable/ic_privacy" android:id="@+id/action_icon_fake" android:visible="false" android:orderInCategory="100" android:title="@string/action_icon_fake"/>
+    <item android:icon="@drawable/ic_action_force_stop" android:id="@+id/action_force_stop" android:visible="false" android:orderInCategory="100" android:title="@string/action_force_stop"/>
+    <item android:icon="@drawable/ic_action_create_shortcut" android:id="@+id/action_uninstall" android:visible="false" android:orderInCategory="100" android:title="@string/action_uninstall"/>
+    <item android:icon="@drawable/ic_action_clear_data" android:id="@+id/action_clean" android:visible="false" android:orderInCategory="100" android:title="@string/action_clean"/>
+    <item android:icon="@drawable/ic_action_clone_app" android:id="@+id/action_clone_next" android:visible="false" android:orderInCategory="100" android:title="@string/action_clone_next"/>
+    <item android:icon="@drawable/ic_action_clone_app" android:id="@+id/action_plugins" android:visible="false" android:orderInCategory="100" android:title="@string/action_plugins"/>
+</menu>

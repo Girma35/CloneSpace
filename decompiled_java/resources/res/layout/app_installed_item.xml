@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:tag="layout/app_installed_item_0" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <RelativeLayout android:layout_gravity="center_horizontal" android:background="@drawable/ic_app_background" android:paddingBottom="8dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="4dp">
+        <FrameLayout android:id="@+id/container" android:layout_width="40dp" android:layout_height="40dp" android:layout_marginTop="10dp" android:layout_centerHorizontal="true" android:layout_marginStart="22dp" android:layout_marginEnd="22dp">
+            <ImageView android:id="@+id/icon" android:layout_width="match_parent" android:layout_height="match_parent"/>
+            <TextView android:textSize="8dp" android:textColor="@color/colorPrimary" android:gravity="center" android:layout_gravity="bottom" android:tag="binding_1" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        </FrameLayout>
+        <FrameLayout android:layout_width="76dp" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:layout_below="@+id/container" android:layout_centerHorizontal="true" android:layout_marginStart="8dp" android:layout_marginEnd="8dp">
+            <LinearLayout android:gravity="bottom" android:layout_gravity="center" android:padding="2dp" android:layout_width="wrap_content" android:layout_height="22dp">
+                <TextView android:textSize="12dp" android:textColor="#ff838a9e" android:ellipsize="marquee" android:gravity="bottom|center_horizontal" android:id="@+id/title" android:tag="binding_2" android:layout_width="0dp" android:layout_height="wrap_content" android:singleLine="true" android:layout_weight="1"/>
+                <TextView android:textSize="12dp" android:textColor="#292929" android:ellipsize="marquee" android:gravity="bottom|center_horizontal" android:id="@+id/space" android:tag="binding_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:layout_marginStart="2dp"/>
+            </LinearLayout>
+        </FrameLayout>
+        <TextView android:textSize="10dp" android:textColor="?android:attr/textColorHint" android:ellipsize="middle" android:id="@+id/des" android:tag="binding_4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:singleLine="true" android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+    <ImageView android:layout_gravity="end|top" android:id="@+id/iv_app_uninstall" android:tag="binding_5" android:layout_width="14dp" android:layout_height="14dp" android:src="@drawable/ic_app_uninstall"/>
+</FrameLayout>

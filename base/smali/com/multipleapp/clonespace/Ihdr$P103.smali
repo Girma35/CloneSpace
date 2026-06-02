@@ -1,0 +1,17 @@
+.class public Lcom/multipleapp/clonespace/Ihdr$P103;
+.super Lcom/multipleapp/clonespace/dE;
+.source "SourceFile"
+
+
+# direct methods
+.method public constructor <init>()V
+    .locals 0
+
+    .line 1
+    invoke-direct {p0}, Landroid/content/ContentProvider;-><init>()V
+
+    .line 2
+    .line 3
+    .line 4
+    return-void
+.end method

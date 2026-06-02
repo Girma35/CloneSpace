@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:orientation="vertical" android:background="@drawable/bg_gradient" android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/rl_no_history" android:layout_width="match_parent" android:layout_height="200.0dp" android:layout_marginLeft="44.0dp" android:layout_marginRight="44.0dp" android:layout_centerInParent="true" android:layout_marginHorizontal="44.0dp" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintTop_toTopOf="parent">
+        <ImageView android:id="@id/iv_empty" android:layout_width="96.0dp" android:layout_height="96.0dp" android:src="@drawable/ic_empty_apps" android:layout_centerInParent="true" android:alpha="0.7" />
+        <TextView android:gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="12.0dp" android:text="No scan history" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView android:id="@id/qrcode_recyclerview" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginLeft="15.0dp" android:layout_marginTop="10.0dp" android:layout_marginRight="15.0dp" android:layout_marginHorizontal="15.0dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
