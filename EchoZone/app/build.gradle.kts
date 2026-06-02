@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.multipleapp.clonespace"
+    namespace = "com.echozone.app"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.multipleapp.clonespace"
+        applicationId = "com.echozone.app"
         minSdk = 24
         targetSdk = 35
         versionCode = 4
