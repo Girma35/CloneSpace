@@ -1,0 +1,482 @@
+[
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/preference_material.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/preference_material.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/notification_template_icon_group.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/preference_widget_switch.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/preference_widget_switch.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_screen_toolbar.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_screen_toolbar.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/android_resolver_list.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/android_resolver_list.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/design_navigation_menu_item.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/design_navigation_menu_item.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/custom_dialog.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/custom_dialog.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_picker_header_dialog.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_picker_header_dialog.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/material_clockface_textview.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/material_clockface_textview.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_tooltip.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_tooltip.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_select_dialog_material.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_select_dialog_material.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_calendar_month_labeled.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_calendar_month_labeled.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/notification_template_part_chronometer.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/notification_template_part_chronometer.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/activity_force_update.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/activity_force_update.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/dialog_app_quantity.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/dialog_app_quantity.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/preference_widget_checkbox.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/preference_widget_checkbox.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/material_radial_view_group.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/material_radial_view_group.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/m3_alert_dialog.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/m3_alert_dialog.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_cascading_menu_item_layout.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_cascading_menu_item_layout.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/design_text_input_start_icon.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/design_text_input_start_icon.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/preference_recyclerview.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/preference_recyclerview.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/m3_alert_dialog_title.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/m3_alert_dialog_title.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/select_dialog_singlechoice_material.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/select_dialog_singlechoice_material.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/material_clock_period_toggle.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/material_clock_period_toggle.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_list_menu_item_checkbox.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_list_menu_item_checkbox.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/action_item.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/action_item.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_action_bar_title_item.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_action_bar_title_item.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/material_clock_display_divider.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/material_clock_display_divider.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_picker_header_fullscreen.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_picker_header_fullscreen.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/notification_template_part_time.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/notification_template_part_time.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_alert_dialog_button_bar_material.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_alert_dialog_button_bar_material.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/activity_qr_code_history.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/activity_qr_code_history.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_alert_select_dialog_multichoice.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_alert_select_dialog_multichoice.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_list_menu_item_icon.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_list_menu_item_icon.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_alert_select_dialog_item.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_alert_select_dialog_item.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/qrcode_result_item.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/qrcode_result_item.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/preference_category.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/preference_category.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/notification_action.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/notification_action.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/create_shortcut.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/create_shortcut.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/fragment_sdk.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/fragment_sdk.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/preference_widget_seekbar_material.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/preference_widget_seekbar_material.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_action_menu_item_layout.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_action_menu_item_layout.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_list_menu_item_layout.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_list_menu_item_layout.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_calendar_horizontal.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_calendar_horizontal.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/app_selected_item.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/app_selected_item.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/activity_dispatch.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/activity_dispatch.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/material_clockface_view.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/material_clockface_view.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_list_menu_item_radio.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_list_menu_item_radio.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/preference_category_material.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/preference_category_material.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_alert_dialog_actions.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_alert_dialog_actions.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_picker_header_selection_text.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_picker_header_selection_text.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_picker_actions.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_picker_actions.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_screen_simple_overlay_action_mode.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_screen_simple_overlay_action_mode.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/preference.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/preference.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/pref_about_item.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/pref_about_item.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/activity_home.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/activity_home.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/app_installed_item.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/app_installed_item.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_calendar_day_of_week.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_calendar_day_of_week.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/material_time_input.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/material_time_input.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_calendar_months.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_calendar_months.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_picker_header_toggle.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_picker_header_toggle.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_popup_menu_header_item_layout.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_popup_menu_header_item_layout.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/fragment_list.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/fragment_list.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_picker_header_title_text.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_picker_header_title_text.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/preference_information_material.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/preference_information_material.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/m3_auto_complete_simple_item.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/m3_auto_complete_simple_item.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/preference_dropdown_material.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/preference_dropdown_material.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_alert_dialog_material.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_alert_dialog_material.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/virtual_launch_preview.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/virtual_launch_preview.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/material_timepicker.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/material_timepicker.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_search_view.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_search_view.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/notification_action_tombstone.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/notification_action_tombstone.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/select_dialog_multichoice_material.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/select_dialog_multichoice_material.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/notification_template_custom_big.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/notification_template_custom_big.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_action_mode_close_item_material.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_action_mode_close_item_material.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_dialog_title_material.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_dialog_title_material.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/m3_alert_dialog_actions.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/m3_alert_dialog_actions.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/dialog_rate_us.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/dialog_rate_us.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_popup_menu_item_layout.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_popup_menu_item_layout.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/preference_widget_switch_compat.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/preference_widget_switch_compat.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/expand_button.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/expand_button.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/select_dialog_item_material.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/select_dialog_item_material.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/activity_qrcode.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/activity_qrcode.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_calendar_days_of_week.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_calendar_days_of_week.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_action_menu_layout.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_action_menu_layout.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/item_popup_menu.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/item_popup_menu.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_alert_dialog_title.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_alert_dialog_title.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_action_mode_bar.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_action_mode_bar.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/preference_dialog_edittext.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/preference_dialog_edittext.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_calendar_day.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_calendar_day.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/design_text_input_end_icon.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/design_text_input_end_icon.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_picker_fullscreen.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_picker_fullscreen.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_search_dropdown_item_icons_2line.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_search_dropdown_item_icons_2line.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/pair_item.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/pair_item.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_calendar_month_navigation.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_calendar_month_navigation.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_screen_simple.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_screen_simple.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/layout_popup_app.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/layout_popup_app.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/image_frame.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/image_frame.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/support_simple_spinner_dropdown_item.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/support_simple_spinner_dropdown_item.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_auto_complete_simple_item.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_auto_complete_simple_item.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/material_time_chip.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/material_time_chip.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/app_banner.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/app_banner.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/preference_dropdown.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/preference_dropdown.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/dialog_privacy.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/dialog_privacy.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_alert_select_dialog_singlechoice.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_alert_select_dialog_singlechoice.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/preference_list_fragment.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/preference_list_fragment.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/preference_information.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/preference_information.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_calendar_year.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_calendar_year.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_expanded_menu_layout.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_expanded_menu_layout.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/material_clock_display.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/material_clock_display.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_calendar_month.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_calendar_month.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/activity_apps.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/activity_apps.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_screen_content_include.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_screen_content_include.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_calendar_vertical.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_calendar_vertical.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_picker_dialog.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_picker_dialog.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/preference_widget_seekbar.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/preference_widget_seekbar.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/design_menu_item_action_area.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/design_menu_item_action_area.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/mtrl_alert_dialog.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/mtrl_alert_dialog.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/abc_alert_dialog_title_material.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/abc_alert_dialog_title_material.xml"
+    },
+    {
+        "merged": "com.multipleapp.clonespace.app-mergeDebugResources-74:/layout/app_space.xml",
+        "source": "com.multipleapp.clonespace.app-main-77:/layout/app_space.xml"
+    }
+]
