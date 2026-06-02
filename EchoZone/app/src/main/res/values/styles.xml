@@ -1475,7 +1475,7 @@
         <item name="textAppearanceSubtitle2">@style/TextAppearance.MaterialComponents.Subtitle2</item>
     </style>
     <style name="Base.V14.ThemeOverlay.Material3.BottomSheetDialog" parent="@style/Base.ThemeOverlay.Material3.Dialog">
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/black</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowAnimationStyle">@style/Animation.Material3.BottomSheetDialog</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
@@ -1483,7 +1483,7 @@
         <item name="enableEdgeToEdge">true</item>
     </style>
     <style name="Base.V14.ThemeOverlay.Material3.SideSheetDialog" parent="@style/Base.ThemeOverlay.Material3.Dialog">
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/black</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowAnimationStyle">@style/Animation.Material3.SideSheetDialog</item>
         <item name="sideSheetModalStyle">@style/Widget.Material3.SideSheet.Modal</item>
@@ -1609,10 +1609,10 @@
         <item name="android:windowElevation">@dimen/abc_floating_window_z</item>
     </style>
     <style name="Base.V21.ThemeOverlay.Material3.BottomSheetDialog" parent="@style/Base.V14.ThemeOverlay.Material3.BottomSheetDialog">
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/black</item>
     </style>
     <style name="Base.V21.ThemeOverlay.Material3.SideSheetDialog" parent="@style/Base.V14.ThemeOverlay.Material3.SideSheetDialog">
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/black</item>
     </style>
     <style name="Base.V22.Theme.AppCompat" parent="@style/Base.V21.Theme.AppCompat">
         <item name="actionModeShareDrawable">?android:attr/actionModeShareDrawable</item>
@@ -1647,7 +1647,7 @@
         <item name="android:contextPopupMenuStyle">@style/Widget.Material3.PopupMenu.ContextMenu</item>
     </style>
     <style name="Base.V7.Theme.AppCompat" parent="@style/Platform.AppCompat">
-        <item name="android:panelBackground">@android:color/transparent</item>
+        <item name="android:panelBackground">@android:color/black</item>
         <item name="android:dropDownListViewStyle">@style/Widget.AppCompat.ListView.DropDown</item>
         <item name="android:textViewStyle">@style/Widget.AppCompat.TextView</item>
         <item name="android:dropDownItemStyle">@style/Widget.AppCompat.DropDownItem.Spinner</item>
@@ -1793,7 +1793,7 @@
         <item name="windowActionModeOverlay">true</item>
     </style>
     <style name="Base.V7.Theme.AppCompat.Light" parent="@style/Platform.AppCompat.Light">
-        <item name="android:panelBackground">@android:color/transparent</item>
+        <item name="android:panelBackground">@android:color/black</item>
         <item name="android:dropDownListViewStyle">@style/Widget.AppCompat.ListView.DropDown</item>
         <item name="android:textViewStyle">@style/Widget.AppCompat.TextView</item>
         <item name="android:dropDownItemStyle">@style/Widget.AppCompat.DropDownItem.Spinner</item>
@@ -2607,7 +2607,7 @@
     </style>
     <style name="ImmersiveDialog" parent="">
         <item name="android:backgroundDimAmount">0</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/black</item>
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
@@ -2617,8 +2617,8 @@
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/black</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
     </style>
     <style name="MaterialAlertDialog.Material3" parent="@style/MaterialAlertDialog.MaterialComponents">
         <item name="android:layout">@layout/m3_alert_dialog</item>
@@ -3743,7 +3743,7 @@
     <style name="Theme.MaterialComponents" parent="@style/Base.Theme.MaterialComponents">
     </style>
     <style name="Theme.MaterialComponents.BottomSheetDialog" parent="@style/Theme.MaterialComponents.Dialog">
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/black</item>
         <item name="android:windowAnimationStyle">@style/Animation.MaterialComponents.BottomSheetDialog</item>
         <item name="bottomSheetStyle">@style/Widget.MaterialComponents.BottomSheet.Modal</item>
     </style>
@@ -3812,7 +3812,7 @@
     <style name="Theme.MaterialComponents.Light" parent="@style/Base.Theme.MaterialComponents.Light">
     </style>
     <style name="Theme.MaterialComponents.Light.BottomSheetDialog" parent="@style/Theme.MaterialComponents.Light.Dialog">
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/black</item>
         <item name="android:windowAnimationStyle">@style/Animation.MaterialComponents.BottomSheetDialog</item>
         <item name="bottomSheetStyle">@style/Widget.MaterialComponents.BottomSheet.Modal</item>
     </style>
@@ -3926,7 +3926,7 @@
         <item name="colorOnContainerUnchecked">?attr/colorOnSurfaceVariant</item>
     </style>
     <style name="ThemeOverlay.Material3.Button.TextButton" parent="">
-        <item name="colorContainer">@android:color/transparent</item>
+        <item name="colorContainer">@android:color/black</item>
         <item name="colorOnContainer">?attr/colorPrimary</item>
     </style>
     <style name="ThemeOverlay.Material3.Button.TextButton.Snackbar" parent="@style/ThemeOverlay.Material3.Button.TextButton">
@@ -4262,10 +4262,10 @@
         <item name="autoCompleteTextViewStyle">@style/Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox</item>
     </style>
     <style name="ThemeOverlay.MaterialComponents.BottomSheetDialog" parent="@style/Base.ThemeOverlay.MaterialComponents.Dialog">
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/black</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowAnimationStyle">@style/Animation.MaterialComponents.BottomSheetDialog</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/black</item>
         <item name="bottomSheetStyle">@style/Widget.MaterialComponents.BottomSheet.Modal</item>
         <item name="enableEdgeToEdge">true</item>
         <item name="paddingBottomSystemWindowInsets">true</item>
@@ -5083,7 +5083,7 @@
     </style>
     <style name="Widget.Material3.LoadingIndicator" parent="@android:style/Widget">
         <item name="android:contentDescription">@string/m3_loading_indicator_content_description</item>
-        <item name="containerColor">@android:color/transparent</item>
+        <item name="containerColor">@android:color/black</item>
         <item name="containerHeight">@dimen/m3_comp_loading_indicator_container_height</item>
         <item name="containerWidth">@dimen/m3_comp_loading_indicator_container_width</item>
         <item name="indicatorColor">?attr/colorPrimary</item>
@@ -5159,7 +5159,7 @@
         <item name="android:visibility">gone</item>
     </style>
     <style name="Widget.Material3.MaterialCalendar.HeaderLayout" parent="@style/Widget.MaterialComponents.MaterialCalendar.HeaderLayout">
-        <item name="android:background">@android:color/transparent</item>
+        <item name="android:background">@android:color/black</item>
         <item name="android:layout_height">@dimen/m3_comp_date_picker_modal_header_container_height</item>
     </style>
     <style name="Widget.Material3.MaterialCalendar.HeaderLayout.Fullscreen" parent="@style/Widget.Material3.MaterialCalendar.HeaderLayout">
@@ -5183,7 +5183,7 @@
         <item name="android:tint">?attr/colorOnSurfaceVariant</item>
     </style>
     <style name="Widget.Material3.MaterialCalendar.Item" parent="">
-        <item name="itemFillColor">@android:color/transparent</item>
+        <item name="itemFillColor">@android:color/black</item>
         <item name="itemShapeAppearance">@style/ShapeAppearance.Material3.Corner.Full</item>
         <item name="itemStrokeColor">@color/m3_calendar_item_stroke_color</item>
         <item name="itemStrokeWidth">1dp</item>
@@ -5818,7 +5818,7 @@
         <item name="indicatorDirectionCircular">clockwise</item>
         <item name="indicatorInset">@dimen/mtrl_progress_circular_inset_medium</item>
         <item name="indicatorSize">@dimen/mtrl_progress_circular_size_medium</item>
-        <item name="trackColor">@android:color/transparent</item>
+        <item name="trackColor">@android:color/black</item>
         <item name="trackThickness">@dimen/mtrl_progress_circular_track_thickness_medium</item>
     </style>
     <style name="Widget.MaterialComponents.CollapsingToolbar" parent="@style/Widget.Design.CollapsingToolbar">
@@ -5997,7 +5997,7 @@
         <item name="android:layout_gravity">end|bottom</item>
     </style>
     <style name="Widget.MaterialComponents.MaterialCalendar.Item" parent="">
-        <item name="itemFillColor">@android:color/transparent</item>
+        <item name="itemFillColor">@android:color/black</item>
         <item name="itemShapeAppearance">?attr/shapeAppearanceSmallComponent</item>
         <item name="itemStrokeColor">@color/mtrl_calendar_item_stroke_color</item>
         <item name="itemStrokeWidth">1dp</item>

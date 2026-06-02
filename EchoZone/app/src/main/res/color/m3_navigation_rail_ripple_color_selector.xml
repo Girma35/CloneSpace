@@ -6,5 +6,5 @@
     <item android:state_pressed="true" android:color="?attr/colorOnSurface" android:alpha="@dimen/m3_comp_nav_rail_item_active_pressed_state_layer_opacity"/>
     <item android:state_focused="true" android:color="?attr/colorOnSurface" android:alpha="@dimen/m3_comp_nav_rail_item_active_focused_state_layer_opacity"/>
     <item android:color="?attr/colorOnSurface" android:alpha="@dimen/m3_comp_nav_rail_item_active_hovered_state_layer_opacity" android:state_hovered="true"/>
-    <item android:color="@android:color/transparent"/>
+    <item android:color="@android:color/black"/>
 </selector>

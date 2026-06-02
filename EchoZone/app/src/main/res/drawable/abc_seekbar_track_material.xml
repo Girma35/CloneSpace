@@ -5,7 +5,7 @@
         <scale android:scaleWidth="100%">
             <selector>
                 <item android:state_enabled="false">
-                    <color android:color="@android:color/transparent"/>
+                    <color android:color="@android:color/black"/>
                 </item>
                 <item android:drawable="0x7f070060"/>
             </selector>
@@ -15,7 +15,7 @@
         <scale android:scaleWidth="100%">
             <selector>
                 <item android:state_enabled="false">
-                    <color android:color="@android:color/transparent"/>
+                    <color android:color="@android:color/black"/>
                 </item>
                 <item android:drawable="0x7f070060"/>
             </selector>

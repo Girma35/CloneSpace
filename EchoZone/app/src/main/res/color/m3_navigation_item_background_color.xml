@@ -2,5 +2,5 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:color="?attr/colorSecondaryContainer" android:state_activated="true"/>
     <item android:state_checked="true" android:color="?attr/colorSecondaryContainer"/>
-    <item android:color="@android:color/transparent"/>
+    <item android:color="@android:color/black"/>
 </selector>
