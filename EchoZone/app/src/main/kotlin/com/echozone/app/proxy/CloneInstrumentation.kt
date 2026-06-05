@@ -478,8 +478,12 @@ class CloneInstrumentation(
                         attachMethod.isAccessible = true
                         attachMethod.invoke(targetApp, virtualContext)
 
-                        // Call Application.onCreate() to initialize all static singletons
-                        targetApp.onCreate()
+                        // NOTE: Do NOT call targetApp.onCreate() here!
+                        // Android's handleBindApplication() will call callApplicationOnCreate()
+                        // AFTER newApplication() returns, which calls app.onCreate().
+                        // Calling it here causes a double-onCreate that triggers:
+                        //   - SavedStateRegistry was already restored
+                        //   - AppCompat has already installed itself into the Window
 
                         Log.i(TAG, "Target Application bootstrapped successfully: $targetAppClassName")
                         return targetApp
