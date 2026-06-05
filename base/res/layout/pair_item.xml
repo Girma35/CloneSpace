@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:tag="layout/pair_item_0" android:background="?selectableItemBackground" android:padding="16.0dp" android:focusable="true" android:clickable="true" android:layout_width="match_parent" android:layout_height="wrap_content"
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <TextView android:id="@id/divider" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="@dimen/margin_small" android:layout_marginRight="@dimen/margin_small" android:text=":" android:layout_centerInParent="true" android:layout_marginHorizontal="@dimen/margin_small" />
-    <TextView android:ellipsize="marquee" android:gravity="start" android:id="@id/key" android:tag="binding_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:singleLine="true" android:layout_centerVertical="true" android:layout_toStartOf="@id/divider" android:layout_alignParentStart="true" />
-    <TextView android:ellipsize="marquee" android:gravity="end" android:id="@id/value" android:tag="binding_2" android:layout_width="match_parent" android:layout_height="wrap_content" android:singleLine="true" android:layout_centerVertical="true" android:layout_toEndOf="@id/divider" android:layout_alignParentEnd="true" />
-</RelativeLayout>

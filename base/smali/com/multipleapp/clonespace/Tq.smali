@@ -1,8 +1,0 @@
-.class public interface abstract Lcom/multipleapp/clonespace/Tq;
-.super Ljava/lang/Object;
-.source "SourceFile"
-
-
-# virtual methods
-.method public abstract s(Ljava/lang/Object;)V
-.end method

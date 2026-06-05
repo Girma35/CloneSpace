@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:height="24dp" android:width="24dp">
-        <shape android:shape="oval">
-            <solid android:color="?attr/colorControlHighlight"/>
-        </shape>
-    </item>
-    <item android:gravity="center" android:height="14dp" android:width="14dp" android:drawable="@drawable/ic_action_search_space"/>
-</layer-list>

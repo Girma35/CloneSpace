@@ -1,7 +1,0 @@
-package com.multipleapp.clonespace;
-/* loaded from: classes.dex */
-public abstract class TP {
-    public static float a(float f, float f2, float f3) {
-        return (f3 * f2) + ((1.0f - f3) * f);
-    }
-}

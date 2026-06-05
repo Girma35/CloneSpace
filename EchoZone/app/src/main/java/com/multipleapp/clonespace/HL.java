@@ -1,9 +1,0 @@
-package com.multipleapp.clonespace;
-/* loaded from: classes.dex */
-public abstract class HL {
-    public static final /* synthetic */ int a = 0;
-
-    static {
-        LL ll = LL.c;
-    }
-}
