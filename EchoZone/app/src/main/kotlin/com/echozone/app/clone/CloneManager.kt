@@ -68,8 +68,8 @@ class CloneManager private constructor() {
     fun addClone(packageName: String, appName: String, cloneIndex: Int = 0): CloneEntry {
         val appContext = App.getInstance()
 
-        // Resolve the APK source path from the installed package
-        val apkPath = resolveApkPath(appContext, packageName)
+        // Resolve the APK source paths from the installed package
+        val apkPaths = resolveApkPaths(appContext, packageName)
 
         // Assign an agent process
         val agentId = assignAgent()
@@ -79,7 +79,7 @@ class CloneManager private constructor() {
             cloneIndex = cloneIndex,
             appName = appName,
             agentId = agentId,
-            sourceApkPath = apkPath
+            sourceApkPath = apkPaths
         )
 
         activeClones[entry.uniqueId] = entry
@@ -169,7 +169,7 @@ class CloneManager private constructor() {
 
     // ── APK Path Resolution ────────────────────────────────────
 
-    private fun resolveApkPath(context: Context, packageName: String): String? {
+    private fun resolveApkPaths(context: Context, packageName: String): String? {
         return try {
             val pm = context.packageManager
             val appInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -178,7 +178,10 @@ class CloneManager private constructor() {
                 @Suppress("DEPRECATION")
                 pm.getApplicationInfo(packageName, 0)
             }
-            appInfo.sourceDir
+            val paths = mutableListOf<String>()
+            if (appInfo.sourceDir != null) paths.add(appInfo.sourceDir)
+            appInfo.splitSourceDirs?.let { paths.addAll(it) }
+            if (paths.isEmpty()) null else paths.joinToString(";")
         } catch (e: PackageManager.NameNotFoundException) {
             null
         }

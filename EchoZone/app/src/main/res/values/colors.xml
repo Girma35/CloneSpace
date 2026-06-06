@@ -1,25 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="green">#0173b9</color>
+    <!-- Primary accent — white on dark -->
+    <color name="green">#FFFFFF</color>
     <color name="colorPrimary">@color/green</color>
-    <color name="purple_500">#0173b9</color>
-    <color name="purple_700">#0173b9</color>
-    <color name="teal_200">#0173b9</color>
-    <color name="teal_700">#0173b9</color>
-    <color name="black">#ff000000</color>
+    <color name="purple_500">#FFFFFF</color>
+    <color name="purple_700">#000000</color>
+    <color name="teal_200">#E0E0E0</color>
+    <color name="teal_700">#BDBDBD</color>
+
+    <!-- Base colors -->
+    <color name="black">#ffF5F5F5</color>
     <color name="white">#ffffffff</color>
-    <color name="bg_app_item">#f7f9fa</color>
-    <color name="bg_f6fbff">#f6fbff</color>
-    <color name="c_C1E3F8">#e0f1fc</color>
-    <color name="c_292929">#292929</color>
-    <color name="c_2BAC90FF">#2bac90ff</color>
-    <color name="c_3D8DFFF4">#3d8dfff4</color>
-    <color name="c_4D98DEFF">#4d98deff</color>
+
+    <!-- Surface / Card backgrounds -->
+    <color name="bg_app_item">#1E1E1E</color>
+    <color name="bg_f6fbff">#121212</color>
+
+    <!-- Accent surfaces -->
+    <color name="c_C1E3F8">#2A2A2A</color>
+    <color name="c_292929">#F5F5F5</color>
+    <color name="c_2BAC90FF">#2BFFFFFF</color>
+    <color name="c_3D8DFFF4">#3DFFFFFF</color>
+    <color name="c_4D98DEFF">#33FFFFFF</color>
     <color name="c_4DFFFFFF">#4dffffff</color>
-    <color name="c_D0292929">#d0292929</color>
-    <color name="text_secondary">#838a9e</color>
-    <color name="text_primary">#292929</color>
-    <color name="text_hint">#40000000</color>
-    <color name="text_title">#3d3d3d</color>
-    <color name="blurOverlayColor">#b2383535</color>
+    <color name="c_D0292929">#D0121212</color>
+
+    <!-- Text colors -->
+    <color name="text_secondary">#9E9E9E</color>
+    <color name="text_primary">#F5F5F5</color>
+    <color name="text_hint">#50FFFFFF</color>
+    <color name="text_title">#FFFFFF</color>
+
+    <!-- Overlay -->
+    <color name="blurOverlayColor">#CC000000</color>
+
+    <!-- FAB icon color (black on white) -->
+    <color name="fab_icon_color">#000000</color>
+
+    <!-- Card stroke -->
+    <color name="card_stroke">#2A2A2A</color>
+
+    <!-- Surface elevated -->
+    <color name="surface_elevated">#1A1A1A</color>
 </resources>

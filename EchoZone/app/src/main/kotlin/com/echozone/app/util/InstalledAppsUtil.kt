@@ -125,9 +125,9 @@ object InstalledAppsUtil {
     }
 
     /**
-     * Gets the APK source path for a given package.
+     * Gets the APK source paths for a given package.
      */
-    fun getApkPath(context: Context, packageName: String): String? {
+    fun getApkPaths(context: Context, packageName: String): List<String> {
         return try {
             val pm = context.packageManager
             val appInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -136,9 +136,12 @@ object InstalledAppsUtil {
                 @Suppress("DEPRECATION")
                 pm.getApplicationInfo(packageName, 0)
             }
-            appInfo.sourceDir
+            val paths = mutableListOf<String>()
+            if (appInfo.sourceDir != null) paths.add(appInfo.sourceDir)
+            appInfo.splitSourceDirs?.let { paths.addAll(it) }
+            paths
         } catch (e: Exception) {
-            null
+            emptyList()
         }
     }
 }

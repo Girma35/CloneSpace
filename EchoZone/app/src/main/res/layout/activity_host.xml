@@ -13,7 +13,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_permission"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
+            android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:background="@color/c_C1E3F8"
             android:visibility="gone">
@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@string/permission_get_apps"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/text_primary"
                 android:textSize="13sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/iv_permission"
@@ -42,17 +42,43 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <!-- Title bar -->
+        <LinearLayout
+            android:id="@+id/title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cl_permission"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="18dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="4dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/host_title"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.02" />
+
+        </LinearLayout>
+
         <!-- Search bar -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/toolbar_search_container"
             android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_below="@+id/cl_permission"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginVertical="4dp"
+            android:layout_height="48dp"
+            android:layout_below="@+id/title_bar"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
             android:visibility="visible"
             app:endIconDrawable="@drawable/ic_close"
             app:endIconMode="clear_text"
+            app:endIconTint="@color/text_secondary"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -65,7 +91,8 @@
                 android:inputType="text"
                 android:maxLines="1"
                 android:paddingVertical="12dp"
-                android:textColor="@color/black"
+                android:paddingHorizontal="14dp"
+                android:textColor="@color/text_primary"
                 android:textColorHint="@color/text_hint"
                 android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -81,10 +108,10 @@
 
             <ImageView
                 android:id="@+id/iv_empty"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_centerInParent="true"
-                android:alpha="0.7"
+                android:alpha="0.5"
                 android:src="@drawable/ic_empty_apps" />
 
             <TextView
@@ -120,24 +147,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/toolbar_search_container"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="4dp"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:paddingBottom="70dp"
+            android:paddingBottom="80dp"
             android:scrollbars="none" />
 
         <!-- Add app FAB -->
         <ImageView
             android:id="@+id/iv_add_app"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="22dp"
+            android:layout_marginBottom="24dp"
             android:background="@drawable/bg_add_app"
             android:contentDescription="@string/action_clone"
-            android:padding="13dp"
+            android:elevation="8dp"
+            android:padding="14dp"
             android:src="@drawable/ic_add_app" />
 
     </RelativeLayout>

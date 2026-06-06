@@ -33,6 +33,18 @@ object TargetAppBootstrapper {
     @Volatile
     private var bootstrapped = false
 
+    @Volatile
+    private var bootstrappedApplication: Application? = null
+
+    fun getBootstrappedApplication(targetPackage: String): Application? {
+        val app = bootstrappedApplication ?: return null
+        return try {
+            if (app.packageName == targetPackage) app else null
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     /**
      * Initialize the target package's Application in this process.
      * Safe to call multiple times — only runs once per process.
@@ -57,9 +69,9 @@ object TargetAppBootstrapper {
             // Ensure VirtualClassLoader is ready
             var virtualCl = VirtualClassLoader.get(cloneId)
             if (virtualCl == null) {
-                val apkPath = VirtualClientProvider.resolveApkPath(App.getInstance(), targetPackage)
-                if (apkPath != null) {
-                    virtualCl = VirtualClassLoader.getOrCreate(App.getInstance(), cloneId, apkPath)
+                val apkPaths = VirtualClientProvider.resolveApkPaths(App.getInstance(), targetPackage)
+                if (apkPaths.isNotEmpty()) {
+                    virtualCl = VirtualClassLoader.getOrCreate(App.getInstance(), cloneId, apkPaths)
                 }
             }
 
@@ -91,6 +103,7 @@ object TargetAppBootstrapper {
             targetApp.onCreate()
 
             // Register as the process Application in ActivityThread
+            bootstrappedApplication = targetApp
             injectIntoActivityThread(targetApp)
 
             Log.i(TAG, "Successfully bootstrapped target Application: $appClassName for $targetPackage")
@@ -100,14 +113,46 @@ object TargetAppBootstrapper {
     }
 
     private fun bootstrapDefaultApplication(targetPackage: String, hostContext: Context, cloneIndex: Int) {
-        // Even if there's no custom Application, we do nothing — the default Application
-        // doesn't need initialization beyond what Android already does.
-        Log.i(TAG, "No custom Application for $targetPackage — no bootstrap needed")
+        try {
+            val cloneId = "${targetPackage}_clone_$cloneIndex"
+            var virtualCl = VirtualClassLoader.get(cloneId)
+            if (virtualCl == null) {
+                val apkPaths = VirtualClientProvider.resolveApkPaths(hostContext, targetPackage)
+                if (apkPaths.isNotEmpty()) {
+                    virtualCl = VirtualClassLoader.getOrCreate(hostContext, cloneId, apkPaths)
+                }
+            }
+
+            val virtualContext = VirtualContext(
+                hostContext = hostContext,
+                targetPackageName = targetPackage,
+                cloneIndex = cloneIndex,
+                virtualClassLoader = virtualCl,
+                proxyClass = null
+            )
+
+            val targetApp = Application()
+            val attachMethod = android.content.ContextWrapper::class.java
+                .getDeclaredMethod("attachBaseContext", Context::class.java)
+            attachMethod.isAccessible = true
+            attachMethod.invoke(targetApp, virtualContext)
+            targetApp.onCreate()
+
+            bootstrappedApplication = targetApp
+            injectIntoActivityThread(targetApp)
+            Log.i(TAG, "Bootstrapped default Application for $targetPackage")
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to bootstrap default Application for $targetPackage", e)
+        }
     }
 
     /**
      * Replace ActivityThread.mInitialApplication with our target Application
      * so that calls like ActivityThread.currentApplication() return the correct one.
+     *
+     * Fix 2: Also removes any stale EchoZone Application entries from mAllApplications
+     * before inserting the target, so the list stays clean and no downstream code
+     * accidentally resolves the wrong Application singleton.
      */
     private fun injectIntoActivityThread(app: Application) {
         try {
@@ -120,12 +165,16 @@ object TargetAppBootstrapper {
             initialAppField.isAccessible = true
             initialAppField.set(at, app)
 
-            // Also add to mAllApplications list
+            // Fix 2: Swap mAllApplications — remove stale EchoZone entry, add target
             val allAppsField = atClass.getDeclaredField("mAllApplications")
             allAppsField.isAccessible = true
             @Suppress("UNCHECKED_CAST")
             val allApps = allAppsField.get(at) as? java.util.ArrayList<Application>
-            allApps?.add(app)
+            if (allApps != null) {
+                val removed = allApps.removeAll { it.javaClass.name.contains("echozone", ignoreCase = true) }
+                allApps.add(app)
+                Log.i(TAG, "Swapped ActivityThread.mAllApplications (removedEchoZone=$removed)")
+            }
 
             Log.i(TAG, "Injected target Application into ActivityThread.mInitialApplication")
         } catch (e: Exception) {

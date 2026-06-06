@@ -57,7 +57,8 @@ class VirtualClientProvider : ContentProvider() {
          * Convenience: Install an APK into the virtual sandbox from anywhere.
          */
         fun installApkToSandbox(context: Context, packageName: String, cloneIndex: Int): Boolean {
-            val apkPath = resolveApkPath(context, packageName) ?: run {
+            val apkPaths = resolveApkPaths(context, packageName)
+            if (apkPaths.isEmpty()) {
                 Log.e(TAG, "Cannot resolve APK path for $packageName")
                 return false
             }
@@ -66,20 +67,22 @@ class VirtualClientProvider : ContentProvider() {
             val apkDir = File(virtualDataDir, "apk")
             if (!apkDir.exists()) apkDir.mkdirs()
 
-            // Copy the APK file
-            val targetApk = File(apkDir, "base.apk")
-            try {
-                copyFile(File(apkPath), targetApk)
-                Log.i(TAG, "APK copied: $apkPath -> ${targetApk.absolutePath}")
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to copy APK", e)
-                return false
+            // Copy the APK files
+            apkPaths.forEachIndexed { index, path ->
+                val targetName = if (index == 0) "base.apk" else "split_$index.apk"
+                val targetApk = File(apkDir, targetName)
+                try {
+                    copyFile(File(path), targetApk)
+                    Log.i(TAG, "APK copied: $path -> ${targetApk.absolutePath}")
+                } catch (e: Exception) {
+                    Log.e(TAG, "Failed to copy APK: $path", e)
+                }
             }
 
             // Extract native libraries
             val nativeLibDir = File(virtualDataDir, "native_lib")
             if (!nativeLibDir.exists()) nativeLibDir.mkdirs()
-            extractNativeLibs(context, packageName, nativeLibDir)
+            extractNativeLibs(context, packageName, apkPaths, nativeLibDir)
 
             // Create standard Android directory structure
             createVirtualDirectories(virtualDataDir)
@@ -128,7 +131,7 @@ class VirtualClientProvider : ContentProvider() {
          * Extract native .so libraries from the target APK into the clone's lib directory.
          * This uses the system's native library directory if available.
          */
-        private fun extractNativeLibs(context: Context, packageName: String, targetLibDir: File) {
+        private fun extractNativeLibs(context: Context, packageName: String, apkPaths: List<String>, targetLibDir: File) {
             try {
                 val pm = context.packageManager
                 val appInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -138,11 +141,64 @@ class VirtualClientProvider : ContentProvider() {
                     pm.getApplicationInfo(packageName, 0)
                 }
 
+                var extractedCount = 0
                 val systemNativeLibDir = File(appInfo.nativeLibraryDir)
-                if (systemNativeLibDir.exists()) {
-                    systemNativeLibDir.listFiles()?.filter { it.name.endsWith(".so") }?.forEach { soFile ->
-                        copyFile(soFile, File(targetLibDir, soFile.name))
-                        Log.d(TAG, "Extracted native lib: ${soFile.name}")
+                if (systemNativeLibDir.exists() && systemNativeLibDir.isDirectory) {
+                    val soFiles = systemNativeLibDir.listFiles()?.filter { it.name.endsWith(".so") }
+                    if (!soFiles.isNullOrEmpty()) {
+                        soFiles.forEach { soFile ->
+                            copyFile(soFile, File(targetLibDir, soFile.name))
+                            Log.d(TAG, "Extracted native lib: ${soFile.name}")
+                            extractedCount++
+                        }
+                    }
+                }
+
+                if (extractedCount == 0) {
+                    Log.i(TAG, "No native libs found in system dir, falling back to ZIP extraction")
+                    val preferredAbi = Build.SUPPORTED_ABIS.firstOrNull { abi ->
+                        apkPaths.any { apk ->
+                            var found = false
+                            try {
+                                java.util.zip.ZipFile(apk).use { zip ->
+                                    val entries = zip.entries()
+                                    while (entries.hasMoreElements()) {
+                                        if (entries.nextElement().name.startsWith("lib/$abi/")) {
+                                            found = true
+                                            break
+                                        }
+                                    }
+                                }
+                            } catch (_: Exception) {}
+                            found
+                        }
+                    }
+
+                    if (preferredAbi != null) {
+                        for (apkPath in apkPaths) {
+                            try {
+                                java.util.zip.ZipFile(apkPath).use { zip ->
+                                    val entries = zip.entries()
+                                    while (entries.hasMoreElements()) {
+                                        val entry = entries.nextElement()
+                                        if (entry.name.startsWith("lib/$preferredAbi/") && entry.name.endsWith(".so")) {
+                                            val soName = File(entry.name).name
+                                            val targetFile = File(targetLibDir, soName)
+                                            if (!targetFile.exists()) {
+                                                zip.getInputStream(entry).use { input ->
+                                                    FileOutputStream(targetFile).use { output ->
+                                                        input.copyTo(output)
+                                                    }
+                                                }
+                                                Log.d(TAG, "Extracted native lib from APK ($preferredAbi): $soName")
+                                            }
+                                        }
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                Log.e(TAG, "Failed to extract native libs from APK: $apkPath", e)
+                            }
+                        }
                     }
                 }
             } catch (e: Exception) {
@@ -162,9 +218,9 @@ class VirtualClientProvider : ContentProvider() {
         }
 
         /**
-         * Resolve the APK source path for an installed package.
+         * Resolve the APK source paths for an installed package.
          */
-        fun resolveApkPath(context: Context, packageName: String): String? {
+        fun resolveApkPaths(context: Context, packageName: String): List<String> {
             return try {
                 val pm = context.packageManager
                 val appInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -173,9 +229,15 @@ class VirtualClientProvider : ContentProvider() {
                     @Suppress("DEPRECATION")
                     pm.getApplicationInfo(packageName, 0)
                 }
-                appInfo.sourceDir
+                
+                val paths = mutableListOf<String>()
+                if (appInfo.sourceDir != null) {
+                    paths.add(appInfo.sourceDir)
+                }
+                appInfo.splitSourceDirs?.let { paths.addAll(it) }
+                paths
             } catch (e: PackageManager.NameNotFoundException) {
-                null
+                emptyList()
             }
         }
     }

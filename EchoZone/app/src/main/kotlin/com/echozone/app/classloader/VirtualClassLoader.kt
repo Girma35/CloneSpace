@@ -20,11 +20,11 @@ import java.util.concurrent.ConcurrentHashMap
  */
 class VirtualClassLoader private constructor(
     hostClassLoader: ClassLoader,
-    private val targetApkPath: String,
+    private val targetApkPaths: List<String>,
     private val nativeLibDir: File?,
     private val sharedLibDir: File?
 ) : PathClassLoader(
-    targetApkPath,
+    targetApkPaths.joinToString(File.pathSeparator),
     null, // no parent search path — we override loadClass to delegate properly
     hostClassLoader
 ) {
@@ -46,10 +46,10 @@ class VirtualClassLoader private constructor(
         fun getOrCreate(
             context: Context,
             cloneId: String,
-            apkPath: String
+            apkPaths: List<String>
         ): VirtualClassLoader {
             return loaderCache.getOrPut(cloneId) {
-                create(context, apkPath).also {
+                create(context, apkPaths).also {
                     Log.i(TAG, "Created VirtualClassLoader for clone: $cloneId")
                 }
             }
@@ -65,9 +65,11 @@ class VirtualClassLoader private constructor(
         /**
          * Create a new VirtualClassLoader. Does not cache.
          */
-        fun create(context: Context, apkPath: String): VirtualClassLoader {
-            val apkFile = File(apkPath)
-            require(apkFile.exists()) { "APK file does not exist: $apkPath" }
+        fun create(context: Context, apkPaths: List<String>): VirtualClassLoader {
+            require(apkPaths.isNotEmpty()) { "APK paths cannot be empty" }
+            val primaryApkPath = apkPaths.first()
+            val apkFile = File(primaryApkPath)
+            require(apkFile.exists()) { "Primary APK file does not exist: $primaryApkPath" }
 
             val hostClassLoader = context.classLoader
             val nativeLibDir = resolveNativeLibDir(context, apkFile)
@@ -75,7 +77,7 @@ class VirtualClassLoader private constructor(
 
             return VirtualClassLoader(
                 hostClassLoader = hostClassLoader,
-                targetApkPath = apkPath,
+                targetApkPaths = apkPaths,
                 nativeLibDir = nativeLibDir,
                 sharedLibDir = sharedLibDir
             )
@@ -188,10 +190,12 @@ class VirtualClassLoader private constructor(
             val addAssetPath = android.content.res.AssetManager::class.java
                 .getMethod("addAssetPath", String::class.java)
 
-            // Add the target APK's resource path
-            val targetResult = addAssetPath.invoke(assetManager, targetApkPath) as Int
-            if (targetResult == 0) {
-                Log.e(TAG, "addAssetPath returned 0 for target APK: $targetApkPath")
+            // Add the target APK's resource paths
+            for (path in targetApkPaths) {
+                val targetResult = addAssetPath.invoke(assetManager, path) as Int
+                if (targetResult == 0) {
+                    Log.e(TAG, "addAssetPath returned 0 for target APK: $path")
+                }
             }
 
             // Also add the host APK's resource path so framework/library resources
@@ -203,7 +207,7 @@ class VirtualClassLoader private constructor(
                 val context = currentMethod.invoke(null) as? android.content.Context
                 if (context != null) {
                     val hostInfo = context.applicationInfo
-                    if (hostInfo?.sourceDir != null && hostInfo.sourceDir != targetApkPath) {
+                    if (hostInfo?.sourceDir != null && !targetApkPaths.contains(hostInfo.sourceDir)) {
                         addAssetPath.invoke(assetManager, hostInfo.sourceDir)
                         Log.d(TAG, "Added host APK asset path: ${hostInfo.sourceDir}")
                     }
@@ -213,7 +217,7 @@ class VirtualClassLoader private constructor(
             }
 
             cachedAssetManager = assetManager
-            Log.i(TAG, "AssetManager created and cached for: $targetApkPath")
+            Log.i(TAG, "AssetManager created and cached for: ${targetApkPaths.first()}")
             assetManager
         } catch (e: Exception) {
             Log.e(TAG, "Failed to create target AssetManager", e)
@@ -240,7 +244,7 @@ class VirtualClassLoader private constructor(
     fun getInfo(): String {
         return buildString {
             append("VirtualClassLoader[\n")
-            append("  APK: $targetApkPath\n")
+            append("  APKs: ${targetApkPaths.joinToString(", ")}\n")
             append("  NativeLib: ${nativeLibDir?.absolutePath ?: "none"}\n")
             append("  SharedLib: ${sharedLibDir?.absolutePath ?: "none"}\n")
             append("  Parent: ${parent?.javaClass?.simpleName ?: "null"}\n")

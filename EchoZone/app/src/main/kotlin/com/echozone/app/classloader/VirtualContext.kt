@@ -120,26 +120,108 @@ class VirtualContext(
     }
 
     // ── Resources Redirection ───────────────────────────────────
+    //
+    // IMPORTANT: We use TARGET-ONLY Resources (not merged host+target).
+    // Merging both APKs into a single AssetManager causes resource ID collisions
+    // because both APKs allocate IDs in the 0x7fXXXXXX space. When the merged
+    // AssetManager resolves a resource ID, it may pick the wrong APK's resource
+    // (e.g., host's Material checkbox drawable instead of target's), causing
+    // Resources$NotFoundException and ClassNotFoundException during inflation.
+    //
+    // The target APK already contains all its own resources. AppCompat theming
+    // is handled by CloneInstrumentation using the target's own theme from
+    // resolveInfo.activityInfo.themeResource.
+
+    /**
+     * Cached target-only Resources. Contains ONLY the target APK's resources,
+     * avoiding resource ID collisions between host and target APKs.
+     *
+     * Strategy (in order of preference):
+     *   1. createPackageContext() — most reliable, uses system asset management
+     *   2. PackageManager.getResourcesForApplication() — public API fallback
+     *   3. Target-only AssetManager via reflection — manual fallback
+     *   4. Ultimate fallback: host resources (target res missing but won't crash)
+     */
+    @Volatile
+    private var cachedTargetResources: Resources? = null
+
+    private fun getTargetResources(): Resources {
+        cachedTargetResources?.let { return it }
+
+        val hostRes = baseContext.resources
+
+        // Step 1: createPackageContext() — most reliable, works on all API levels
+        // Returns Resources backed by the target APK's asset table only.
+        try {
+            val targetCtx = baseContext.createPackageContext(
+                targetPackageName,
+                Context.CONTEXT_IGNORE_SECURITY
+            )
+            val targetRes = targetCtx.resources
+            cachedTargetResources = targetRes
+            Log.i(TAG, "Got target-only Resources via createPackageContext for $targetPackageName")
+            return targetRes
+        } catch (e: Exception) {
+            Log.w(TAG, "createPackageContext failed for $targetPackageName", e)
+        }
+
+        // Step 2: PackageManager.getResourcesForApplication() — public API
+        try {
+            val targetRes = baseContext.packageManager
+                .getResourcesForApplication(targetPackageName)
+            cachedTargetResources = targetRes
+            Log.i(TAG, "Got target-only Resources via PackageManager for $targetPackageName")
+            return targetRes
+        } catch (e: Exception) {
+            Log.w(TAG, "PackageManager.getResourcesForApplication failed for $targetPackageName", e)
+        }
+
+        // Step 3: Target-only AssetManager via reflection (target APK only, NOT merged)
+        val targetApkPaths: List<String> = try {
+            val ai = baseContext.packageManager.getApplicationInfo(targetPackageName, 0)
+            val paths = mutableListOf<String>()
+            if (ai.sourceDir != null) paths.add(ai.sourceDir)
+            ai.splitSourceDirs?.let { paths.addAll(it) }
+            paths
+        } catch (e: Exception) {
+            Log.w(TAG, "Failed to get target APK paths for $targetPackageName", e)
+            emptyList()
+        }
+
+        if (targetApkPaths.isNotEmpty()) {
+            try {
+                val amConstructor = AssetManager::class.java.getDeclaredConstructor()
+                amConstructor.isAccessible = true
+                val am = amConstructor.newInstance()
+
+                val addAssetPath = AssetManager::class.java
+                    .getDeclaredMethod("addAssetPath", String::class.java)
+                addAssetPath.isAccessible = true
+                for (path in targetApkPaths) {
+                    addAssetPath.invoke(am, path)
+                }
+
+                val targetRes = Resources(am, hostRes.displayMetrics, hostRes.configuration)
+                cachedTargetResources = targetRes
+                Log.i(TAG, "Created target-only AssetManager for $targetPackageName")
+                return targetRes
+            } catch (e: Exception) {
+                Log.w(TAG, "Target-only AssetManager failed for $targetPackageName", e)
+            }
+        }
+
+        // Step 4: Ultimate fallback — host resources (target res missing, but won't crash)
+        Log.w(TAG, "All target resource loading failed, using host Resources for $targetPackageName")
+        cachedTargetResources = hostRes
+        return hostRes
+    }
 
     override fun getResources(): Resources {
-        val targetAssetManager = virtualClassLoader?.getTargetResources()
-        return if (targetAssetManager != null) {
-            try {
-                val metrics = baseContext.resources.displayMetrics
-                val config = baseContext.resources.configuration
-                Resources(targetAssetManager, metrics, config)
-            } catch (e: Exception) {
-                Log.w(TAG, "Failed to create target Resources, using host", e)
-                super.getResources()
-            }
-        } else {
-            Log.w(TAG, "No target AssetManager available, using host resources")
-            super.getResources()
-        }
+        return getTargetResources()
     }
 
     override fun getAssets(): AssetManager {
-        return virtualClassLoader?.getTargetResources() ?: super.getAssets()
+        return getResources().assets
     }
 
     // ── Package Info ────────────────────────────────────────────

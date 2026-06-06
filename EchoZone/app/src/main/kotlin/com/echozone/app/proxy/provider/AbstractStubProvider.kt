@@ -78,7 +78,23 @@ abstract class AbstractStubProvider : ContentProvider() {
     }
 
     override fun onCreate(): Boolean {
-        // Mimics `o5.onCreate()` which returns false, and `dE.onCreate()` which returns true.
+        // ── Install CloneInstrumentation BEFORE Application creation ──
+        // On modern Android (14+), ContentProviders are initialized BEFORE the
+        // Application and its Instrumentation.newApplication() call. By installing
+        // CloneInstrumentation here, our newApplication() override will be invoked
+        // when Android creates the Application, allowing us to read the agent info
+        // from the shared JSON file in filesDir and bootstrap the target app's Application class.
+        //
+        // Without this, CloneInstrumentation is only installed in App.onCreate(),
+        // which runs AFTER newApplication() has already been called with the
+        // default Instrumentation — bypassing our override entirely.
+        try {
+            val ctx = context ?: return true
+            com.echozone.app.proxy.CloneInstrumentation.install(ctx.packageName)
+            Log.i(TAG, "CloneInstrumentation installed from stub provider (pre-Application)")
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to install CloneInstrumentation from stub provider", e)
+        }
         return true
     }
 

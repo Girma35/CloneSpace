@@ -89,7 +89,9 @@ class HostActivity : AppCompatActivity() {
             onLongClick = { app -> enterEditMode() }
         )
 
-        recyclerView.layoutManager = GridLayoutManager(this, GRID_COLUMNS)
+        val layoutManager = GridLayoutManager(this, GRID_COLUMNS)
+        layoutManager.spanSizeLookup = adapter.getSpanSizeLookup(GRID_COLUMNS)
+        recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
     }
 

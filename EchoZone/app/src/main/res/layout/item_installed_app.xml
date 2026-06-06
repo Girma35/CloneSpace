@@ -2,68 +2,75 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="4dp">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
         app:cardBackgroundColor="@color/bg_app_item"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="1dp">
+        app:cardCornerRadius="14dp"
+        app:cardElevation="2dp"
+        app:strokeColor="@color/card_stroke"
+        app:strokeWidth="1dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp">
-
-            <!-- Selection checkbox -->
-            <ImageView
-                android:id="@+id/iv_selected"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_checked_icon"
-                android:visibility="gone" />
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingTop="14dp"
+            android:paddingBottom="12dp"
+            android:paddingHorizontal="6dp">
 
             <!-- App icon -->
             <ImageView
                 android:id="@+id/iv_icon"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true" />
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_horizontal" />
 
-            <!-- App info -->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <!-- Selection overlay checkbox -->
+            <ImageView
+                android:id="@+id/iv_selected"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="4dp"
+                android:layout_marginTop="-48dp"
+                android:layout_marginBottom="28dp"
+                android:src="@drawable/ic_checked_icon"
+                android:visibility="gone" />
+
+            <!-- App name -->
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="12dp"
-                android:layout_toStartOf="@+id/iv_selected"
-                android:layout_toEndOf="@+id/iv_icon"
-                android:orientation="vertical">
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="8dp"
+                android:ellipsize="marquee"
+                android:gravity="center_horizontal"
+                android:maxLines="1"
+                android:textColor="@color/text_primary"
+                android:textSize="11sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tv_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="marquee"
-                    android:maxLines="1"
-                    android:textColor="@color/text_primary"
-                    android:textSize="14sp" />
+            <!-- Package name -->
+            <TextView
+                android:id="@+id/tv_package"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="2dp"
+                android:ellipsize="middle"
+                android:gravity="center_horizontal"
+                android:maxLines="1"
+                android:textColor="@color/text_secondary"
+                android:textSize="9sp" />
 
-                <TextView
-                    android:id="@+id/tv_package"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:ellipsize="middle"
-                    android:maxLines="1"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="11sp" />
-            </LinearLayout>
-
-        </RelativeLayout>
+        </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </FrameLayout>

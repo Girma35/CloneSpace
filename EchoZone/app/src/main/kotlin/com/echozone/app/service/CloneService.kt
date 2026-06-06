@@ -159,6 +159,10 @@ class CloneService : Service() {
     private fun launchCloneApp(packageName: String, cloneIndex: Int, activityName: String) {
         Log.i(TAG, "Launching clone: $packageName (index=$cloneIndex, activity=$activityName)")
 
+        // startForegroundService() requires startForeground() quickly. APK copy and
+        // native setup can take long enough to trip the Android service timeout.
+        startForegroundWithNotification()
+
         // Check if already running
         val uniqueId = "${packageName}_clone_$cloneIndex"
         val existing = cloneManager.getClone(uniqueId)
@@ -208,9 +212,6 @@ class CloneService : Service() {
 
         // Build the intent to launch the proxy activity in the agent process
         val launchIntent = buildProxyIntent(cloneEntry, activityName)
-
-        // Ensure the service is in foreground before starting activity
-        startForegroundWithNotification()
 
         try {
             launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -397,19 +398,26 @@ class CloneService : Service() {
     // ── Agent Process Info ──────────────────────────────────
 
     /**
-     * Save agent info to SharedPreferences so the agent process can read it
-     * during Application creation. Uses commit() for synchronous disk write
-     * to ensure cross-process visibility.
+     * Save agent info to a JSON file in filesDir so the agent process can read it
+     * during Application creation (newApplication()).
+     *
+     * IMPORTANT: SharedPreferences CANNOT be used for cross-process communication
+     * on modern Android (API 23+). They are cached per-process and MODE_MULTI_PROCESS
+     * is a no-op on API 23+. Instead, we write to a JSON file in filesDir, which is
+     * accessible from all processes with the same UID. File reads always go to disk
+     * (no in-memory cache), so the agent process immediately sees the data.
      */
     private fun saveAgentInfoForProcess(agentId: Int, packageName: String, cloneIndex: Int, uniqueId: String) {
         try {
-            val prefs = getSharedPreferences(AGENT_PREFS_NAME, MODE_PRIVATE)
-            prefs.edit()
-                .putString("agent_${agentId}_package", packageName)
-                .putInt("agent_${agentId}_cloneIndex", cloneIndex)
-                .putString("agent_${agentId}_cloneId", uniqueId)
-                .commit() // commit() for synchronous cross-process write
-            Log.i(TAG, "Saved agent info: agent$agentId → $packageName")
+            val json = org.json.JSONObject().apply {
+                put("package", packageName)
+                put("cloneIndex", cloneIndex)
+                put("cloneId", uniqueId)
+            }.toString()
+
+            val agentFile = java.io.File(filesDir, "agent_${agentId}_info.json")
+            agentFile.writeText(json)
+            Log.i(TAG, "Saved agent info to ${agentFile.name}: agent$agentId → $packageName")
         } catch (e: Exception) {
             Log.e(TAG, "Failed to save agent info", e)
         }

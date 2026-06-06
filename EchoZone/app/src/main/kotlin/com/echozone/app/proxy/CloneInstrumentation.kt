@@ -1,12 +1,10 @@
 package com.echozone.app.proxy
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Instrumentation
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.IBinder
 import android.util.Log
 import com.echozone.app.App
 
@@ -189,23 +187,55 @@ class CloneInstrumentation(
             injectVirtualContextIfNecessary(activity)
         }
 
+        // Fix 1: Force-apply the target app's theme via setTheme() BEFORE delegating to
+        // delegate.callActivityOnCreate(). Replacing mTheme/mThemeResource fields alone is
+        // not sufficient — AppCompatActivity reads the theme resource ID from the activity's
+        // window token (set during Activity.attach()) and may re-apply the wrong theme.
+        // Calling setTheme() here guarantees the correct theme is active at inflate time.
+        if (App.isPrimaryUser()) {
+            try {
+                val targetThemeRes = activity.applicationInfo?.theme ?: 0
+                if (targetThemeRes != 0) {
+                    activity.setTheme(targetThemeRes)
+                    Log.d(TAG, "Force-applied target theme $targetThemeRes to ${activity.javaClass.simpleName}")
+                }
+            } catch (e: Exception) {
+                Log.w(TAG, "Could not force-apply target theme (non-fatal)", e)
+            }
+        }
+
         try {
             delegate.callActivityOnCreate(activity, icicle)
         } catch (e: IllegalStateException) {
-            // VectorDrawableCompat crash: the VirtualContext's combined resource table
-            // (target APK + host APK) can't resolve AppCompat theme attributes.
-            // Fix: apply the host app's own AppCompat theme as fallback, then retry.
-            if (e.message?.contains("VectorDrawableCompat", ignoreCase = true) == true) {
-                Log.w(TAG, "VectorDrawableCompat crash in ${activity.javaClass.name}, applying fallback theme")
-                try {
-                    activity.setTheme(androidx.appcompat.R.style.Theme_AppCompat_Light_NoActionBar)
-                    delegate.callActivityOnCreate(activity, icicle)
-                } catch (e2: Exception) {
-                    Log.e(TAG, "Fallback theme also failed for ${activity.javaClass.name}", e2)
-                    throw e2
+            val msg = e.message ?: ""
+            when {
+                // AppCompat double-init: AppCompat's installViewFactory() or installViewTreeFactories()
+                // was already called during the target app's Application.onCreate().
+                // This is a non-fatal condition — the factory is already installed.
+                msg.contains("AppCompat", ignoreCase = true) && msg.contains("already installed", ignoreCase = true) -> {
+                    Log.w(TAG, "AppCompat already installed in Window for ${activity.javaClass.name}, skipping retry")
                 }
-            } else {
-                throw e
+                // SavedStateRegistry double-restore: the registry was already restored during
+                // Application init. This is typically harmless — just log and continue.
+                msg.contains("SavedStateRegistry", ignoreCase = true) && msg.contains("already restored", ignoreCase = true) -> {
+                    Log.w(TAG, "SavedStateRegistry already restored for ${activity.javaClass.name}, skipping retry")
+                }
+                // Theme or VectorDrawable errors: log and continue without crashing.
+                // We do NOT try to set the HOST's AppCompat theme as a fallback because
+                // target-only Resources cannot resolve host resource IDs (0x7fXXXXXX).
+                // The target app's own theme (set in injectVirtualContextIfNecessary) should
+                // already be correct. If it isn't, the activity may render with degraded
+                // theming but won't crash the process.
+                msg.contains("VectorDrawableCompat", ignoreCase = true) ||
+                msg.contains("Theme.AppCompat", ignoreCase = true) ||
+                msg.contains("Resources\$NotFoundException", ignoreCase = true) -> {
+                    Log.w(TAG, "Theme/resources issue in ${activity.javaClass.name}: ${e.message}")
+                    // Don't retry — host theme IDs can't resolve on target-only Resources.
+                    // The activity may render without proper theming but process stays alive.
+                }
+                else -> {
+                    throw e
+                }
             }
         }
     }
@@ -267,14 +297,95 @@ class CloneInstrumentation(
                 themeResource = resolveInfo.activityInfo.applicationInfo.theme
             }
 
+            // CRITICAL: Activity.attach() created resources/theme/inflater from
+            // the host stub component. After replacing mBase with VirtualContext,
+            // clear those host caches so layout inflation resolves 0x7f resource
+            // IDs against the target APK instead of EchoZone.
+            allowHiddenApiReflection()
+            setFieldInHierarchy(activity, "mResources", virtualContext.resources)
+
             if (themeResource != 0) {
-                activity.setTheme(themeResource)
+                val targetTheme = virtualContext.resources.newTheme()
+                targetTheme.applyStyle(themeResource, true)
+                val themeFieldSet = setFieldInHierarchy(activity, "mTheme", targetTheme)
+                if (!themeFieldSet) {
+                    try {
+                        activity.theme.setTo(targetTheme)
+                        Log.i(TAG, "Copied target Theme into existing Activity theme")
+                    } catch (e: Exception) {
+                        Log.w(TAG, "Could not copy target Theme into existing Activity theme", e)
+                    }
+                }
+                setFieldInHierarchy(activity, "mThemeResource", themeResource)
                 Log.i(TAG, "Applied theme $themeResource to ${activity.javaClass.name}")
+            } else if (activity is androidx.appcompat.app.AppCompatActivity) {
+                Log.w(TAG, "No theme resource found for AppCompatActivity ${activity.javaClass.name} " +
+                    "— target app may not include AppCompat resources")
+            }
+
+            try {
+                val inflater = android.view.LayoutInflater.from(virtualContext)
+                    .cloneInContext(activity)
+                val activityInflaterSet = setFieldInHierarchy(activity, "mInflater", inflater)
+                val windowInflaterSet = setFieldInHierarchy(activity.window, "mLayoutInflater", inflater)
+                Log.i(
+                    TAG,
+                    "Injected target LayoutInflater into ${activity.javaClass.name} " +
+                        "(activity=$activityInflaterSet, window=$windowInflaterSet)"
+                )
+            } catch (e: Exception) {
+                Log.w(TAG, "Could not inject target LayoutInflater into ${activity.javaClass.name}", e)
+            }
+
+            // Android attached the stub activity with the host Application because
+            // the manifest component belongs to EchoZone. If the target Application
+            // was bootstrapped, make Activity.getApplication() return that instance.
+            val targetApp = TargetAppBootstrapper.getBootstrappedApplication(targetPackage)
+            if (targetApp != null) {
+                val appField = Activity::class.java.getDeclaredField("mApplication")
+                appField.isAccessible = true
+                appField.set(activity, targetApp)
+                Log.i(TAG, "Injected target Application into ${activity.javaClass.name}")
             }
 
             Log.i(TAG, "VirtualContext injected into ${activity.javaClass.name}")
         } catch (e: Exception) {
             Log.e(TAG, "Failed to inject VirtualContext", e)
+        }
+    }
+
+    private fun setFieldInHierarchy(instance: Any, fieldName: String, value: Any?): Boolean {
+        var cls: Class<*>? = instance.javaClass
+        while (cls != null) {
+            try {
+                val field = cls.getDeclaredField(fieldName)
+                field.isAccessible = true
+                field.set(instance, value)
+                return true
+            } catch (_: NoSuchFieldException) {
+                cls = cls.superclass
+            } catch (e: Exception) {
+                Log.w(TAG, "Could not set ${instance.javaClass.name}.$fieldName", e)
+                return false
+            }
+        }
+        Log.d(TAG, "Field $fieldName not found on ${instance.javaClass.name}")
+        return false
+    }
+
+    private fun allowHiddenApiReflection() {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.P) return
+        try {
+            val vmRuntimeClass = Class.forName("dalvik.system.VMRuntime")
+            val getRuntime = vmRuntimeClass.getDeclaredMethod("getRuntime")
+            val runtime = getRuntime.invoke(null)
+            val setExemptions = vmRuntimeClass.getDeclaredMethod(
+                "setHiddenApiExemptions",
+                Array<String>::class.java
+            )
+            setExemptions.invoke(runtime, arrayOf("Landroid/view/", "Lcom/android/internal/policy/"))
+        } catch (e: Exception) {
+            Log.d(TAG, "Hidden API exemption unavailable: ${e.message}")
         }
     }
 
@@ -287,7 +398,18 @@ class CloneInstrumentation(
     }
 
     override fun callActivityOnPostCreate(activity: Activity, icicle: Bundle?) {
-        delegate.callActivityOnPostCreate(activity, icicle)
+        try {
+            delegate.callActivityOnPostCreate(activity, icicle)
+        } catch (e: IllegalStateException) {
+            val msg = e.message ?: ""
+            if (msg.contains("Theme.AppCompat", ignoreCase = true) ||
+                msg.contains("AppCompat", ignoreCase = true)) {
+                Log.w(TAG, "Theme/AppCompat issue in onPostCreate for ${activity.javaClass.name}: ${e.message}")
+                // Don't retry with host theme IDs — they can't resolve on target-only Resources.
+            } else {
+                throw e
+            }
+        }
     }
 
     override fun callActivityOnNewIntent(activity: Activity, intent: Intent) {
@@ -329,14 +451,23 @@ class CloneInstrumentation(
         if (targetActivity != null && targetPackage != null) {
             val cloneIndex = intent.getIntExtra("clone_index", 0)
             val cloneId = "${targetPackage}_clone_$cloneIndex"
+            val appContext = getCurrentApplicationContext()
             
             try {
+                if (appContext != null) {
+                    ensureAgentProcessReady(targetPackage, cloneIndex, appContext)
+                }
+
                 // Get the VirtualClassLoader for this clone
                 var virtualClassLoader = com.echozone.app.classloader.VirtualClassLoader.get(cloneId)
                 if (virtualClassLoader == null) {
-                    val apkPath = com.echozone.app.provider.VirtualClientProvider.resolveApkPath(com.echozone.app.App.getInstance(), targetPackage)
-                    if (apkPath != null) {
-                        virtualClassLoader = com.echozone.app.classloader.VirtualClassLoader.getOrCreate(com.echozone.app.App.getInstance(), cloneId, apkPath)
+                    // Use ActivityThread.currentApplication() instead of App.getInstance() because
+                    // when newApplication() bootstraps the target app, App.instance is not initialized.
+                    if (appContext != null) {
+                        val apkPaths = com.echozone.app.provider.VirtualClientProvider.resolveApkPaths(appContext, targetPackage)
+                        if (apkPaths.isNotEmpty()) {
+                            virtualClassLoader = com.echozone.app.classloader.VirtualClassLoader.getOrCreate(appContext, cloneId, apkPaths)
+                        }
                     }
                 }
 
@@ -363,6 +494,69 @@ class CloneInstrumentation(
 
         // Fallback to normal instantiation if not intercepted
         return delegate.newActivity(cl, className, intent)
+    }
+
+    /**
+     * Direct CloneService launches enter the agent process through ProxyActivity,
+     * not AgentActivity. Install the target identity hooks and bootstrap the
+     * target Application here before the real Activity is instantiated.
+     */
+    private fun ensureAgentProcessReady(targetPackage: String, cloneIndex: Int, appContext: Context) {
+        try {
+            val installedPackage = com.echozone.app.hook.VirtualPackageManager.getTargetPackage()
+            if (installedPackage.isNotEmpty() && installedPackage != targetPackage) {
+                com.echozone.app.hook.VirtualPackageManager.uninstall()
+                com.echozone.app.hook.ServiceHookManager.uninstall()
+            }
+
+            if (com.echozone.app.hook.VirtualPackageManager.getTargetPackage() != targetPackage) {
+                com.echozone.app.hook.VirtualPackageManager.install(
+                    packageName = targetPackage,
+                    pm = appContext.packageManager
+                )
+                Log.i(TAG, "VirtualPackageManager installed from newActivity for $targetPackage")
+            }
+
+            if (!com.echozone.app.hook.ServiceHookManager.isHookInstalled()) {
+                com.echozone.app.hook.ServiceHookManager.install(
+                    packageName = targetPackage,
+                    proxyClass = resolveProxyClassForAgent(),
+                    hostPkg = appContext.packageName
+                )
+                Log.i(TAG, "ServiceHookManager installed from newActivity for $targetPackage")
+            }
+
+            initNativeHooksForAgent(targetPackage, cloneIndex, appContext)
+
+            if (!isTargetApplicationActive(targetPackage)) {
+                TargetAppBootstrapper.bootstrap(
+                    targetPackage = targetPackage,
+                    hostContext = appContext,
+                    cloneIndex = cloneIndex
+                )
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to prepare agent process for $targetPackage", e)
+        }
+    }
+
+    private fun getCurrentApplicationContext(): Context? {
+        return try {
+            val atClass = Class.forName("android.app.ActivityThread")
+            val currentMethod = atClass.getMethod("currentApplication")
+            currentMethod.invoke(null) as? Context
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    private fun isTargetApplicationActive(targetPackage: String): Boolean {
+        val currentApp = getCurrentApplicationContext() ?: return false
+        return try {
+            currentApp !is App && currentApp.packageName == targetPackage
+        } catch (e: Exception) {
+            false
+        }
     }
 
     /**
@@ -394,16 +588,16 @@ class CloneInstrumentation(
         var targetPackage = com.echozone.app.hook.VirtualPackageManager.getTargetPackage()
         var cloneIndex = 0
 
-        // If VirtualPackageManager is not installed (agent process), read from SharedPreferences.
-        // Agent processes are started by CloneService which writes target package info to
-        // SharedPreferences BEFORE launching the activity. This allows us to bootstrap the
-        // target Application during process init — before any Activity intent is available.
+        // If VirtualPackageManager is not installed (agent process), read from the
+        // shared JSON file. CloneService writes agent info to filesDir/agent_{id}_info.json
+        // BEFORE launching the activity. This allows us to bootstrap the target Application
+        // during process init — before any Activity intent is available.
         if (targetPackage.isEmpty()) {
-            val agentInfo = readAgentInfoFromPrefs(appContext)
+            val agentInfo = readAgentInfoFromFile(appContext)
             if (agentInfo != null) {
                 targetPackage = agentInfo.first
                 cloneIndex = agentInfo.second
-                Log.i(TAG, "Read agent info from SharedPreferences: pkg=$targetPackage, clone=$cloneIndex")
+                Log.i(TAG, "Read agent info from file: pkg=$targetPackage, clone=$cloneIndex")
 
                 // Install VirtualPackageManager so the rest of the system works
                 com.echozone.app.hook.VirtualPackageManager.install(
@@ -446,11 +640,11 @@ class CloneInstrumentation(
                     // Ensure VirtualClassLoader is available
                     var virtualCl = com.echozone.app.classloader.VirtualClassLoader.get(cloneId)
                     if (virtualCl == null) {
-                        val apkPath = com.echozone.app.provider.VirtualClientProvider
-                            .resolveApkPath(com.echozone.app.App.getInstance(), targetPackage)
-                        if (apkPath != null) {
+                        val apkPaths = com.echozone.app.provider.VirtualClientProvider
+                            .resolveApkPaths(appContext, targetPackage)
+                        if (apkPaths.isNotEmpty()) {
                             virtualCl = com.echozone.app.classloader.VirtualClassLoader
-                                .getOrCreate(com.echozone.app.App.getInstance(), cloneId, apkPath)
+                                .getOrCreate(appContext, cloneId, apkPaths)
                         }
                     }
 
@@ -458,7 +652,6 @@ class CloneInstrumentation(
                         Log.i(TAG, "Bootstrapping target Application: $targetAppClassName")
 
                         // Build the virtual context for the target app
-                        val targetAppInfo = com.echozone.app.hook.VirtualPackageManager.getTargetAppInfo()
                         val virtualContext = com.echozone.app.classloader.VirtualContext(
                             hostContext = appContext,
                             targetPackageName = targetPackage,
@@ -477,6 +670,14 @@ class CloneInstrumentation(
                             .getDeclaredMethod("attach", Context::class.java)
                         attachMethod.isAccessible = true
                         attachMethod.invoke(targetApp, virtualContext)
+
+                        // Fix 3: Patch ActivityThread IMMEDIATELY — before returning the app to
+                        // Android's handleBindApplication(). Activity.attach() is called during
+                        // handleLaunchActivity() which runs right after handleBindApplication().
+                        // Hilt and other DI frameworks read ActivityThread.currentApplication()
+                        // in Activity.attach() — if mInitialApplication still points to EchoZone's
+                        // Application at that moment, their component factory crashes.
+                        replaceApplication(targetApp)
 
                         // NOTE: Do NOT call targetApp.onCreate() here!
                         // Android's handleBindApplication() will call callApplicationOnCreate()
@@ -499,22 +700,48 @@ class CloneInstrumentation(
     }
 
     /**
-     * Read agent target package info from SharedPreferences.
-     * Determines the agent ID from the current process name (e.g. ":agent0" → 0)
-     * and looks up the corresponding entry.
-     * Returns (packageName, cloneIndex) or null if not found.
+     * Read agent target package info from a shared JSON file in filesDir.
+     *
+     * IMPORTANT: SharedPreferences CANNOT be used for cross-process communication
+     * on modern Android (API 23+). They are cached per-process and MODE_MULTI_PROCESS
+     * is a no-op on API 23+. Instead, CloneService writes agent info to a JSON file
+     * in filesDir (shared across all processes with the same UID) BEFORE launching
+     * the ProxyActivity. File reads always go to disk (no in-memory cache), making
+     * this reliably cross-process.
      */
-    private fun readAgentInfoFromPrefs(context: Context): Pair<String, Int>? {
+    private fun readAgentInfoFromFile(context: Context): Pair<String, Int>? {
         return try {
             val agentId = getCurrentAgentId()
-            if (agentId < 0) return null
+            if (agentId < 0) {
+                Log.d(TAG, "readAgentInfoFromFile: getCurrentAgentId returned -1, not in agent process")
+                return null
+            }
+            Log.d(TAG, "readAgentInfoFromFile: agentId=$agentId, processName=${android.app.Application.getProcessName()}")
 
-            val prefs = context.getSharedPreferences("agent_clone_info", Context.MODE_PRIVATE)
-            val pkg = prefs.getString("agent_${agentId}_package", null) ?: return null
-            val cloneIndex = prefs.getInt("agent_${agentId}_cloneIndex", 0)
+            // Read from JSON file in filesDir (cross-process safe - all processes
+            // with the same UID can access the same filesDir)
+            val agentFile = java.io.File(context.filesDir, "agent_${agentId}_info.json")
+            if (!agentFile.exists()) {
+                Log.d(TAG, "Agent info file not found: ${agentFile.absolutePath}")
+                return null
+            }
+
+            val json = agentFile.readText()
+            Log.d(TAG, "readAgentInfoFromFile: content=$json")
+
+            // Parse JSON using org.json (available on Android without additional deps)
+            val jsonObj = org.json.JSONObject(json)
+            val pkg = jsonObj.optString("package", null)
+            if (pkg == null || pkg.isEmpty()) {
+                Log.d(TAG, "Package not found in agent info file")
+                return null
+            }
+            val cloneIndex = jsonObj.optInt("cloneIndex", 0)
+
+            Log.i(TAG, "Read agent info from file: pkg=$pkg, clone=$cloneIndex")
             Pair(pkg, cloneIndex)
         } catch (e: Exception) {
-            Log.w(TAG, "Failed to read agent info from SharedPreferences", e)
+            Log.w(TAG, "Failed to read agent info from file", e)
             null
         }
     }
@@ -556,7 +783,7 @@ class CloneInstrumentation(
         }
 
         try {
-            val dataDir = com.echozone.app.App.getInstance().getVirtualDataDir(targetPackage, cloneIndex)
+            val dataDir = java.io.File(context.filesDir, "virtual_apps/${targetPackage}_$cloneIndex").also { it.mkdirs() }
 
             // Resolve native lib dir from the installed package
             val nativeLibDir = try {
@@ -612,10 +839,57 @@ class CloneInstrumentation(
                 val agentStr = processName.substringAfter(":agent")
                 agentStr.toIntOrNull() ?: -1
             } else {
+                Log.d(TAG, "getCurrentAgentId: processName=$processName, not an agent process")
                 -1
             }
         } catch (e: Exception) {
+            Log.d(TAG, "getCurrentAgentId: exception=${e.message}")
             -1
+        }
+    }
+
+    /**
+     * Fix 2: Replace the Application in ActivityThread immediately and atomically.
+     *
+     * Compared to the old additive approach (just calling allApps.add(targetApp)),
+     * this also REMOVES the old EchoZone Application from mAllApplications so that:
+     *   - ActivityThread.currentApplication() returns the target app, not EchoZone.
+     *   - Hilt's component factory (which reads currentApplication() during Activity.attach())
+     *     sees the correct Application before any Activity lifecycle method runs.
+     *   - No stale EchoZone entries pollute the list for subsequent lookups.
+     *
+     * Must be called immediately after Application.attach() inside newApplication(),
+     * before returning the targetApp to Android's handleBindApplication().
+     */
+    private fun replaceApplication(targetApp: android.app.Application) {
+        try {
+            val atClass = Class.forName("android.app.ActivityThread")
+            val currentMethod = atClass.getMethod("currentActivityThread")
+            val at = currentMethod.invoke(null) ?: run {
+                Log.w(TAG, "replaceApplication: ActivityThread is null, skipping")
+                return
+            }
+
+            // Replace mInitialApplication
+            val initialAppField = atClass.getDeclaredField("mInitialApplication")
+            initialAppField.isAccessible = true
+            initialAppField.set(at, targetApp)
+
+            // Swap in mAllApplications — remove the old EchoZone app entry, add the target
+            val allAppsField = atClass.getDeclaredField("mAllApplications")
+            allAppsField.isAccessible = true
+            @Suppress("UNCHECKED_CAST")
+            val allApps = allAppsField.get(at) as? java.util.ArrayList<android.app.Application>
+            if (allApps != null) {
+                // Remove any existing EchoZone Application entries
+                val removed = allApps.removeAll { it.javaClass.name.contains("echozone", ignoreCase = true) }
+                allApps.add(targetApp)
+                Log.i(TAG, "replaceApplication: swapped ActivityThread apps (removedEchoZone=$removed)")
+            }
+
+            Log.i(TAG, "replaceApplication: mInitialApplication → ${targetApp.javaClass.name}")
+        } catch (e: Exception) {
+            Log.w(TAG, "replaceApplication: failed (non-fatal) — ${e.message}")
         }
     }
 }
