@@ -91,3 +91,10 @@ unknown/
 jadx_dir/
 decompiled_java/
 apktool.jar
+
+# Accidental empty command/artifact files
+EchoZone/A
+EchoZone/Android
+EchoZone/Get
+EchoZone/Run
+EchoZone/Task
